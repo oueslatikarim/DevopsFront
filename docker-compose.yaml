@@ -1,0 +1,13 @@
+version: "3.3"
+services :
+    angular-app: 
+        image: oueslatikarim/angular:latest 
+        container_name: front_c 
+        
+       
+        ports: 
+          - "4200:4200" 
+        volumes: 
+          - fv:/var/lib/fv 
+volumes: 
+   fv:
