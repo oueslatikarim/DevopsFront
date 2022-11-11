@@ -1,13 +1,10 @@
-FROM docker.io/node:12.20-alpine AS build
+FROM node:14 as node
+# FROM node:16.13.1
 WORKDIR /app
-COPY package*.json /app/
-RUN npm install 
-COPY ./ /app/
-RUN node_modules/.bin/ng build --output-path=dist --prod=true
+COPY . .
+RUN npm install
+RUN npm run build --prod
 
-
-
-# Run Stage
-FROM nginx:1.17.1-alpine
-COPY default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+# stage 2
+FROM nginx:alpine
+COPY --from=node app/dist/*  /usr/share/nginx/html
